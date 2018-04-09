@@ -18,6 +18,11 @@ public class Print {
 		System.out.println(s);
 	}
 
+	static public void start(String s) {
+		doTab();
+		System.out.print(s);
+	}
+
 	static public void enter(String s) {
 		print("Enter: " + s);
 		tabs++;
@@ -31,6 +36,7 @@ public class Print {
 	static public void note(String s) {
 		print(s);
 	}
+
 
 	static public void bump(String s) {
 		tabs++;
