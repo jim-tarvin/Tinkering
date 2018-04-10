@@ -1,7 +1,5 @@
 package com.ramfam.Sort.MergeSort;
 
-import com.ramfam.Util.Print;
-
 import java.util.Arrays;
 
 public class Main {
@@ -31,11 +29,8 @@ public class Main {
 
 		int leftSize = mid - left + 1;
 		int rightSize = right - mid;
-		Print.enter("Merge ("+leftSize+","+rightSize+")");
-
 
 		// put the data into two separate temp arrays
-		Print.note("Create Temp arrays ("+leftSize+","+rightSize+")");
 //		int[] L = new int[leftSize];
 //		int[] R = new int[rightSize];
 
@@ -46,7 +41,6 @@ public class Main {
 		for ( int j = 0 ; j < rightSize ; j++ ) {
 			R[j] = data[ mid + 1 + j ];
 		}
-
 
 		// merge the two temp arrays back into the original array
 		// i controls the position in the 'left' array, j in the right,
@@ -81,23 +75,18 @@ public class Main {
 			data[k++] = R[j++];
 
 		}
-		Print.exit("Merge ("+leftSize+","+rightSize+")");
 	}
 
 	static void sort( int[] data, int left, int right ) {
 
-		Print.enter("Sort ("+left+","+right+")");
 		if ( left < right ) {
 
 			int mid = (left + right) / 2;
 
-			Print.note("Sort left ("+left+","+mid+")");
 			sort( data, left, mid );
-			Print.note("Sort right ("+mid+","+right+")");
 			sort( data, mid+1, right );
 
 			merge( data, left, mid, right );
 		}
-		Print.exit("Sort ("+left+","+right+")");
 	}
 }

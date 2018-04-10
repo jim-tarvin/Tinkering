@@ -1,6 +1,5 @@
 package com.ramfam.Sort.HeapSort;
 
-import com.ramfam.Util.Print;
 
 import java.util.Arrays;
 
@@ -23,33 +22,38 @@ public class Main {
 
 		int size = data.length;
 
+		// we treat the data array as a complete binary tree
+		// 'size / 2 - 1' gives us the position of the last non-leaf node in the complete binary tree
+		// we use this to visit every non-leaf node in the tree from lowest and right-most to the top-most.
+		//		(i.e. (size / 2 - 1) ... 0)
+		//
+		//	this has the effect of bubbling the largest number up to the 'top' of the complete binary tree (aka data[0])
 
 		// create max heap
-		Print.enter("Begin creating max heap " + Arrays.toString(data) );
 		for ( int i = size / 2 - 1 ; i >= 0 ; i-- ) {
-			Print.note("call heapify, i="+i);
 			heapify(data,size,i);
 		}
-		Print.note("After creating max heap " + Arrays.toString(data) );
-		Print.note("--------");
-		Print.note("--------");
 
-		Print.note( "enter sorting loop" );
+		// Because we know that we are working with a max heap, the first element will be the largest
+		//	so...we swap the first and last element to place the largest value in the last element of the array
+		//	then...we heapify the remaining elements which once again places the largest remaining element in
+		//			the first position of the array...and so on
+
 		for ( int i = size - 1 ; i >= 0 ; i-- ) {	// all elements greater than 'i' are known to be sorted
-			Print.note( "Loop iteration " + i + "  Swap element " + 0 + " and " + i );
-			swap( data, 0, i );					// swap first and last element
-			Print.note("Post swap of element " + i + "  " + Arrays.toString(data) );
+			swap( data, 0, i );					// swap first and last element (beca
 			heapify( data, i, 0 );				// re-build max heap
-			Print.note("Post heapify  " + Arrays.toString(data) );
-			Print.note("--------");
 		}
-		Print.exit("");
 	}
 
 
 	static void heapify( int data[], int size, int root ) {
 
-		Print.enter("heapify size="+size+",  root="+root);
+		/**
+		 * for the given root node, find the largest value of the root and its left
+		 * and right child.
+		 * swap the root value with the largest value.  This will mean that the root node will
+		 * have the largest value of the three
+		 */
 		int posOfLargest = root;
 		int left  = 2*root + 1;
 		int right = 2*root + 2;
@@ -63,12 +67,9 @@ public class Main {
 		}
 
 		if ( posOfLargest != root ) {
-			Print.start( "Swap element " + root + " and " + posOfLargest + "  :::::: "  );
-			swap( data, root, posOfLargest );
-			Print.note( Arrays.toString(data) );
-			heapify( data, size, posOfLargest );
+			swap( data, root, posOfLargest );		// make the root the largest
+			heapify( data, size, posOfLargest );	// now, we've modified the child, so we have to check it
 		}
-		Print.exit("");
 	}
 
 
