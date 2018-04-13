@@ -11,14 +11,14 @@ public class Main {
 
 		System.out.println(Arrays.toString(data));
 
-		sort( data );
+		sort( data, new MinHeap() );
 
 		System.out.println(Arrays.toString(data));
 
 	}
 
 
-	static void sort( int[] data ) {
+	static void sort( int[] data, Heap heap ) {
 
 		int size = data.length;
 
@@ -31,7 +31,7 @@ public class Main {
 
 		// create max heap
 		for ( int i = size / 2 - 1 ; i >= 0 ; i-- ) {
-			heapify(data,size,i);
+			heap.heapify(data,size,i);
 		}
 
 		// Because we know that we are working with a max heap, the first element will be the largest
@@ -41,7 +41,7 @@ public class Main {
 
 		for ( int i = size - 1 ; i >= 0 ; i-- ) {	// all elements greater than 'i' are known to be sorted
 			swap( data, 0, i );					// swap first and last element (beca
-			heapify( data, i, 0 );				// re-build max heap
+			heap.heapify( data, i, 0 );				// re-build max heap
 		}
 	}
 
@@ -72,6 +72,67 @@ public class Main {
 		}
 	}
 
+	interface Heap {
+		public void heapify( int[] data, int size, int root );
+	}
+
+	static class MaxHeap implements Heap {
+		@Override
+		public void heapify(int[] data, int size, int root) {
+			/**
+			 * for the given root node, find the largest value of the root and its left
+			 * and right child.
+			 * swap the root value with the largest value.  This will mean that the root node will
+			 * have the largest value of the three
+			 */
+			int posOfLargest = root;
+			int left  = 2*root + 1;
+			int right = 2*root + 2;
+
+			if ( left < size && data[left] > data[posOfLargest] ) {
+				posOfLargest = left;
+			}
+
+			if ( right < size && data[right] > data[posOfLargest] ) {
+				posOfLargest = right;
+			}
+
+			if ( posOfLargest != root ) {
+				swap( data, root, posOfLargest );		// make the root the largest
+				heapify( data, size, posOfLargest );	// now, we've modified the child, so we have to check it
+			}
+
+		}
+	}
+
+	static class MinHeap implements Heap {
+		@Override
+		public void heapify(int[] data, int size, int root) {
+			/**
+			 * for the given root node, find the largest value of the root and its left
+			 * and right child.
+			 * swap the root value with the largest value.  This will mean that the root node will
+			 * have the largest value of the three
+			 */
+			int posOfLargest = root;
+			int left  = 2*root + 1;
+			int right = 2*root + 2;
+
+			if ( left < size && data[left] < data[posOfLargest] ) {
+				posOfLargest = left;
+			}
+
+			if ( right < size && data[right] < data[posOfLargest] ) {
+				posOfLargest = right;
+			}
+
+			if ( posOfLargest != root ) {
+				swap( data, root, posOfLargest );		// make the root the largest
+				heapify( data, size, posOfLargest );	// now, we've modified the child, so we have to check it
+			}
+
+		}
+	}
 
 	static void swap( int[] data, int left, int right ) {
 		int t = data[left];
